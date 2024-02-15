@@ -53,7 +53,10 @@ public class UserController {
 
     @RequestMapping(value = "/{id}/conflicting_events", method = RequestMethod.GET)
     public List<ConflictingEvents> getUserConflictingEvents(@PathVariable String id) {
-        return eventRepository.getConflictingEventsByUserId(UUID.fromString(id));
+        return eventRepository.getConflictingEventsByUserId(UUID.fromString(id))
+                .stream()
+                .filter(conflictingEvents -> conflictingEvents.getConflictingEventIds() != null)
+                .toList();
     }
 
     @RequestMapping(value = "/available_slots", method = RequestMethod.GET)
